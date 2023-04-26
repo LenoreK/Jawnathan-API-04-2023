@@ -6,15 +6,18 @@ public class Song {
     private String playSongUrl;
     private String photoUrl;
     private String buySongUrl;
+
+    private boolean cover;
     private int albumId;
     private int groupId;
 
-    public Song(int songId, String name, String playSongUrl, String photoUrl, String buySongUrl, int albumId, int groupId) {
+    public Song(int songId, String name, String playSongUrl, String photoUrl, String buySongUrl, boolean cover, int albumId, int groupId) {
         this.songId = songId;
         this.name = name;
         this.playSongUrl = playSongUrl;
         this.photoUrl = photoUrl;
         this.buySongUrl = buySongUrl;
+        this.cover = cover;
         this.albumId = albumId;
         this.groupId = groupId;
     }
@@ -76,5 +79,13 @@ public class Song {
 
     public void setGroupId(int groupId) {
         this.groupId = groupId;
+    }
+
+    public boolean isCover() {
+        return cover;
+    }
+
+    public void setCover(boolean cover) {
+        this.cover = cover;
     }
 }

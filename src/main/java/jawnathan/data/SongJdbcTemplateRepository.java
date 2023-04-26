@@ -22,13 +22,13 @@ public class SongJdbcTemplateRepository implements SongRepository {
 
     @Override
     public List<Song> findAll() {
-        final String sql = "select song_id, song_name, song_url, photo_url, buy_song_url, album_id, group_id from song;";
+        final String sql = "select song_id, song_name, song_url, photo_url, buy_song_url, cover, album_id, group_id from song;";
         return jdbcTemplate.query(sql, new SongMapper());
     }
 
     @Override
     public Song findById(int songId){
-        final String sql = "select song_id, song_name, song_url, photo_url, buy_song_url, album_id, group_id "
+        final String sql = "select song_id, song_name, song_url, photo_url, buy_song_url, cover, album_id, group_id "
                 + "from song "
                 + "where song_id = ?;";
         return jdbcTemplate.query(sql, new SongMapper(), songId).stream()
@@ -38,7 +38,7 @@ public class SongJdbcTemplateRepository implements SongRepository {
 
     @Override
     public Song add(Song song) {
-        final String sql = "insert into song (song_name, song_url, photo_url, buy_song_url, album_id, group_id) values (?,?,?,?,?,?);";
+        final String sql = "insert into song (song_name, song_url, photo_url, buy_song_url, cover, album_id, group_id) values (?,?,?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -47,8 +47,9 @@ public class SongJdbcTemplateRepository implements SongRepository {
             ps.setString(2, song.getPlaySongUrl());
             ps.setString(3, song.getPhotoUrl());
             ps.setString(4, song.getBuySongUrl());
-            ps.setInt(5, song.getAlbumId());
-            ps.setInt(6, song.getGroupId());
+            ps.setBoolean(5, song.isCover());
+            ps.setInt(6, song.getAlbumId());
+            ps.setInt(7, song.getGroupId());
             return ps;
         }, keyHolder);
 
@@ -67,11 +68,12 @@ public class SongJdbcTemplateRepository implements SongRepository {
                 + "song_url = ?, "
                 + "photo_url = ?, "
                 + "buy_song_url = ?, "
+                + "cover = ?, "
                 + "album_id = ?, "
                 + "group_id = ? "
                 + "where song_id = ?";
 
-        return jdbcTemplate.update(sql, song.getName(), song.getPlaySongUrl(), song.getPhotoUrl(), song.getBuySongUrl(), song.getAlbumId(), song.getGroupId(), song.getSongId()) > 0;
+        return jdbcTemplate.update(sql, song.getName(), song.getPlaySongUrl(), song.getPhotoUrl(), song.getBuySongUrl(), song.isCover(), song.getAlbumId(), song.getGroupId(), song.getSongId()) > 0;
     }
 
     @Override

@@ -7,13 +7,15 @@ public class Video {
     private int videoId;
     private String url;
     private String name;
+    private String photo;
+    private int groupId;
 
-    private List<GroupVideo> groupVideos = new ArrayList<>();
-
-    public Video(int videoId, String url, String name) {
+    public Video(int videoId, String url, String name, String photo, int groupId) {
         this.videoId = videoId;
         this.url = url;
         this.name = name;
+        this.photo = photo;
+        this.groupId = groupId;
     }
 
     public Video() {
@@ -41,5 +43,21 @@ public class Video {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

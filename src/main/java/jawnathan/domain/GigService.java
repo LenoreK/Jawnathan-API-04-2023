@@ -80,7 +80,10 @@ public class GigService {
             result.addMessage("venueId cannot be null", ResultType.INVALID);
         }
         if (Validations.isNullOrBlank(gig.getDetails())){
-            result.addMessage("gigId cannot be null", ResultType.INVALID);
+            result.addMessage("gig details cannot be null", ResultType.INVALID);
+        }
+        if (Validations.isNullOrBlank(String.valueOf(gig.getGroupId()))){
+            result.addMessage("groupId cannot be null", ResultType.INVALID);
         }
         return result;
     }

@@ -87,11 +87,11 @@ public class VenueJdbcTemplateRepository implements VenueRepository{
     @Override
     @Transactional
     public boolean deleteById(int venueId) {
-        jdbcTemplate.update("Delete p\n" +
-                "from person_gig_role p\n" +
-                "left outer join gig g on p.gig_id = g.gig_id\n" +
-                "left outer join venue v on v.venue_id = v.venue_id\n" +
-                "where v.venue_id = ?;", venueId);
+//        jdbcTemplate.update("Delete p\n" +
+//                "from person_gig_role p\n" +
+//                "left outer join gig g on p.gig_id = g.gig_id\n" +
+//                "left outer join venue v on v.venue_id = v.venue_id\n" +
+//                "where v.venue_id = ?;", venueId);
         jdbcTemplate.update("delete from gig where venue_id = ?", venueId);
         return jdbcTemplate.update("delete from venue where venue_id = ?", venueId) > 0;
     }

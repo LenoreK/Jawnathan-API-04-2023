@@ -22,13 +22,13 @@ public class PersonJdbcTemplateRepository implements PersonRepository {
 
     @Override
     public List<Person> findAll() {
-        final String sql = "select person_id, first_name, middle_name, last_name, photo from person;";
+        final String sql = "select person_id, first_name, middle_name, last_name, photo, details from person;";
         return jdbcTemplate.query(sql, new PersonMapper());
     }
 
     @Override
     public Person findById(int personId){
-        final String sql = "select person_id, first_name, middle_name, last_name, photo "
+        final String sql = "select person_id, first_name, middle_name, last_name, photo, details "
                 + "from person "
                 + "where person_id = ?;";
         return jdbcTemplate.query(sql, new PersonMapper(), personId).stream()
@@ -38,7 +38,7 @@ public class PersonJdbcTemplateRepository implements PersonRepository {
 
     @Override
     public Person add(Person person) {
-        final String sql = "insert into person (first_name, middle_name, last_name, photo) values (?,?,?,?);";
+        final String sql = "insert into person (first_name, middle_name, last_name, photo, details) values (?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -47,6 +47,7 @@ public class PersonJdbcTemplateRepository implements PersonRepository {
             ps.setString(2, person.getMiddleName());
             ps.setString(3, person.getLastName());
             ps.setString(4, person.getPhoto());
+            ps.setString(5, person.getDetails());
             return ps;
         }, keyHolder);
 
@@ -64,17 +65,17 @@ public class PersonJdbcTemplateRepository implements PersonRepository {
                 + "first_name = ?, "
                 + "middle_name = ?, "
                 + "last_name = ?, "
-                + "photo = ? "
+                + "photo = ?, "
+                + "details = ? "
                 + "where person_id = ?";
 
-        return jdbcTemplate.update(sql, person.getFirstName(), person.getMiddleName(), person.getLastName(), person.getPhoto(), person.getPersonId()) > 0;
+        return jdbcTemplate.update(sql, person.getFirstName(), person.getMiddleName(), person.getLastName(), person.getPhoto(), person.getDetails(), person.getPersonId()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int personId){
         jdbcTemplate.update("delete from group_person where person_id = ?", personId);
-        jdbcTemplate.update("delete from person_gig_role where person_id = ?", personId);
         return jdbcTemplate.update("delete from person where person_id = ?", personId) > 0;
     }
 }

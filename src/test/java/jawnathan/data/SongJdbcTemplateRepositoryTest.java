@@ -44,11 +44,12 @@ class SongJdbcTemplateRepositoryTest {
         song.setPlaySongUrl("something.com");
         song.setPhotoUrl("something.com");
         song.setBuySongUrl("something.com");
+        song.setCover(true);
         song.setAlbumId(1);
         song.setGroupId(1);
         Song actual = repository.add(song);
         assertNotNull(actual);
-        assertEquals(4, actual.getSongId());
+        assertEquals(9, actual.getSongId());
     }
 
     @Test

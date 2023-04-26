@@ -42,6 +42,8 @@ class VideoJdbcTemplateRepositoryTest {
         Video video = new Video();
         video.setUrl("something.com");
         video.setName("Hello World");
+        video.setPhoto("something.com");
+        video.setGroupId(2);
         Video actual = repository.add(video);
         assertNotNull(actual);
         assertEquals(4, actual.getVideoId());
@@ -53,6 +55,8 @@ class VideoJdbcTemplateRepositoryTest {
         video.setVideoId(2);
         video.setUrl("something.com");
         video.setName("Hello World");
+        video.setPhoto("something.com");
+        video.setGroupId(3);
         assertTrue(repository.update(video));
     }
 

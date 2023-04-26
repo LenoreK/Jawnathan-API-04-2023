@@ -1,10 +1,7 @@
 package jawnathan.models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Gig {
     private int gigId;
@@ -12,14 +9,10 @@ public class Gig {
     private String details;
     private LocalTime startTime;
     private LocalTime endTime;
-
     private int venueId;
-    private List<PersonGigRole> personGigRoles = new ArrayList<>();
-    private List<Venue> venues = new ArrayList<>();
+    private int groupId;
 
-    private List<GroupGig> groupGigs = new ArrayList<>();
-
-    public Gig(int gigId, LocalDate date, LocalDate endDate, String details, LocalTime startTime, LocalTime endTime, int venueId) {
+    public Gig(int gigId, LocalDate date, LocalDate endDate, String details, LocalTime startTime, LocalTime endTime, int venueId, int groupId) {
         this.gigId = gigId;
         this.date = date;
         this.details = details;
@@ -55,30 +48,6 @@ public class Gig {
         this.details = details;
     }
 
-    public List<PersonGigRole> getPersonGigRoles() {
-        return personGigRoles;
-    }
-
-    public void setPersonGigRoles(List<PersonGigRole> personGigRoles) {
-        this.personGigRoles = personGigRoles;
-    }
-
-    public List<GroupGig> getGroupGigs() {
-        return groupGigs;
-    }
-
-    public void setGroupGigs(List<GroupGig> groupGigs) {
-        this.groupGigs = groupGigs;
-    }
-
-    public List<Venue> getVenues() {
-        return venues;
-    }
-
-    public void setVenues(List<Venue> venues) {
-        this.venues = venues;
-    }
-
     public int getVenueId() {
         return venueId;
     }
@@ -101,5 +70,13 @@ public class Gig {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }

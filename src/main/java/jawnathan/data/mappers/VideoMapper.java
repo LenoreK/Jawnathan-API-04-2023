@@ -13,6 +13,8 @@ public class VideoMapper implements RowMapper<Video> {
         video.setVideoId(resultSet.getInt("video_id"));
         video.setUrl(resultSet.getString("video_url"));
         video.setName(resultSet.getString("video_name"));
+        video.setPhoto(resultSet.getString("photo"));
+        video.setGroupId(resultSet.getInt("group_id"));
         return video;
     }
 }

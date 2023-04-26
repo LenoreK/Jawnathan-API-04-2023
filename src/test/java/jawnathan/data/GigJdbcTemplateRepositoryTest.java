@@ -48,6 +48,7 @@ class GigJdbcTemplateRepositoryTest {
         gig.setStartTime(LocalTime.parse("18:30"));
         gig.setEndTime(LocalTime.parse("21:30"));
         gig.setVenueId(2);
+        gig.setGroupId(1);
         Gig actual = repository.add(gig);
         assertNotNull(actual);
         assertEquals(4, actual.getGigId());
@@ -62,6 +63,7 @@ class GigJdbcTemplateRepositoryTest {
         gig.setStartTime(LocalTime.parse("18:30"));
         gig.setEndTime(LocalTime.parse("21:30"));
         gig.setVenueId(2);
+        gig.setGroupId(1);
         assertTrue(repository.update(gig));
     }
 

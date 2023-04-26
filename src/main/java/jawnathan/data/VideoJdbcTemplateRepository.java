@@ -23,13 +23,13 @@ public class VideoJdbcTemplateRepository implements VideoRepository{
     @Override
     public List<Video> findAll() {
         // limit until we develop a paging solution
-        final String sql = "select video_id, video_url, video_name from video;";
+        final String sql = "select video_id, video_url, video_name, photo, group_id from video;";
         return jdbcTemplate.query(sql, new VideoMapper());
     }
 
     @Override
     public Video findById(int videoId){
-        final String sql = "select video_id, video_url, video_name "
+        final String sql = "select video_id, video_url, video_name, photo, group_id "
                 + "from video "
                 + "where video_id = ?;";
         return jdbcTemplate.query(sql, new VideoMapper(), videoId).stream()
@@ -39,14 +39,16 @@ public class VideoJdbcTemplateRepository implements VideoRepository{
 
     @Override
     public Video add(Video video){
-        final String sql = "insert into video (video_url, video_name)"
-                + "values (?,?);";
+        final String sql = "insert into video (video_url, video_name, photo, group_id)"
+                + "values (?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, video.getUrl());
             ps.setString(2, video.getName());
+            ps.setString(3, video.getPhoto());
+            ps.setInt(4, video.getGroupId());
             return ps;
         }, keyHolder);
 
@@ -62,19 +64,22 @@ public class VideoJdbcTemplateRepository implements VideoRepository{
     public boolean update(Video video){
         final String sql = "update video set "
                 + "video_url = ?, "
-                + "video_name = ? "
+                + "video_name = ?, "
+                + "photo = ?, "
+                + "group_id = ? "
                 + "where video_id = ?;";
 
         return jdbcTemplate.update(sql,
                 video.getUrl(),
                 video.getName(),
+                video.getPhoto(),
+                video.getGroupId(),
                 video.getVideoId()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int videoId) {
-        jdbcTemplate.update("delete from group_video where video_id = ?", videoId);
         return jdbcTemplate.update("delete from video where video_id = ?", videoId) > 0;
     }
 }

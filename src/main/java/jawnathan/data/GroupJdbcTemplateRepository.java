@@ -75,7 +75,8 @@ public class GroupJdbcTemplateRepository implements GroupRepository {
     public boolean deleteById(int groupId){
         jdbcTemplate.update("delete from group_person where group_id = ?", groupId);
         jdbcTemplate.update("delete from song where group_id = ?", groupId);
-        jdbcTemplate.update("delete from group_video where group_id = ?", groupId);
+        jdbcTemplate.update("delete from video where group_id = ?", groupId);
+        jdbcTemplate.update("delete from gig where group_id = ?", groupId);
         return jdbcTemplate.update("delete from musical_group where group_id = ?", groupId) > 0;
     }
 }

@@ -8,16 +8,15 @@ public class Person {
     private String firstName;
     private String middleName;
     private String lastName;
-
     private String photo;
+    private String details;
 
-    private List<GroupPerson> groupPersons = new ArrayList<>();
-
-    public Person(int personId, String firstName, String middleName, String lastName) {
+    public Person(int personId, String firstName, String middleName, String lastName, String details) {
         this.personId = personId;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
+        this.details = details;
     }
 
     public Person() {
@@ -61,5 +60,13 @@ public class Person {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }

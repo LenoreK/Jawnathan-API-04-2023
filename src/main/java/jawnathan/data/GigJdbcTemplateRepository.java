@@ -23,13 +23,13 @@ public class GigJdbcTemplateRepository implements GigRepository {
     @Override
     public List<Gig> findAll() {
         // limit until we develop a paging solution
-        final String sql = "select gig_id, gig_date, details, start_time, end_time, venue_id from gig;";
+        final String sql = "select gig_id, gig_date, details, start_time, end_time, venue_id, group_id from gig;";
         return jdbcTemplate.query(sql, new GigMapper());
     }
 
     @Override
     public Gig findById(int gigId){
-        final String sql = "select gig_id, gig_date, details, start_time, end_time, venue_id "
+        final String sql = "select gig_id, gig_date, details, start_time, end_time, venue_id, group_id "
                 + "from gig "
                 + "where gig_id = ?;";
         return jdbcTemplate.query(sql, new GigMapper(), gigId).stream()
@@ -39,7 +39,7 @@ public class GigJdbcTemplateRepository implements GigRepository {
 
     @Override
     public Gig add(Gig gig) {
-        final String sql = "insert into gig (gig_date, details, start_time, end_time, venue_id) values (?,?,?,?,?);";
+        final String sql = "insert into gig (gig_date, details, start_time, end_time, venue_id, group_id) values (?,?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -49,6 +49,7 @@ public class GigJdbcTemplateRepository implements GigRepository {
             ps.setTime(3, Time.valueOf(gig.getStartTime()));
             ps.setTime(4, Time.valueOf(gig.getEndTime()));
             ps.setInt(5, gig.getVenueId());
+            ps.setInt(6, gig.getGroupId());
             return ps;
         }, keyHolder);
 
@@ -67,16 +68,16 @@ public class GigJdbcTemplateRepository implements GigRepository {
                 + "details = ?, "
                 + "start_time = ?, "
                 + "end_time = ?, "
-                + "venue_id = ? "
+                + "venue_id = ?, "
+                + "group_id = ? "
                 + "where gig_id = ?";
 
-        return jdbcTemplate.update(sql, gig.getDate(), gig.getDetails(), gig.getStartTime(), gig.getEndTime(), gig.getVenueId(), gig.getGigId()) > 0;
+        return jdbcTemplate.update(sql, gig.getDate(), gig.getDetails(), gig.getStartTime(), gig.getEndTime(), gig.getVenueId(), gig.getGroupId(), gig.getGigId()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int gigId){
-        jdbcTemplate.update("delete from person_gig_role where gig_id = ?", gigId);
         return jdbcTemplate.update("delete from gig where gig_id = ?", gigId) > 0;
     }
 }

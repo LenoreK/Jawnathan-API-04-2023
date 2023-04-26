@@ -15,6 +15,7 @@ public class SongMapper implements RowMapper<Song> {
         song.setPlaySongUrl(resultSet.getString("song_url"));
         song.setPhotoUrl(resultSet.getString("photo_url"));
         song.setBuySongUrl(resultSet.getString("buy_song_url"));
+        song.setCover(resultSet.getBoolean("cover"));
         song.setAlbumId(resultSet.getInt("album_id"));
         song.setGroupId(resultSet.getInt("group_id"));
         return song;
