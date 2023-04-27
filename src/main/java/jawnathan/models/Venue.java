@@ -9,13 +9,17 @@ public class Venue {
     private String state;
     private String zipcode;
 
-    public Venue(int venueId, String name, String url, String address, String city, String state, String zipcode) {
+    private String photo;
+
+    public Venue(int venueId, String name, String url, String address, String city, String state, String zipcode, String photo) {
         this.venueId = venueId;
         this.name = name;
         this.url = url;
         this.address = address;
         this.city = city;
         this.state = state;
+        this.zipcode = zipcode;
+        this.photo = photo;
     }
 
     public Venue() {
@@ -76,5 +80,13 @@ public class Venue {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

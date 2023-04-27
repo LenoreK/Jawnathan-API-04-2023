@@ -69,6 +69,7 @@ class VenueJdbcTemplateRepositoryTest {
         venue.setCity("Cherry Hill");
         venue.setState("NJ");
         venue.setZipcode("08043");
+        venue.setPhoto("https://lh3.googleusercontent.com/p/AF1QipOuKPj_kqBHRqOvThtFW8X3pFUS3KvZ1GV5h4V3=s680-w680-h510");
         return venue;
     }
 

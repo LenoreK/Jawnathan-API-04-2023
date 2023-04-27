@@ -24,13 +24,13 @@ public class VenueJdbcTemplateRepository implements VenueRepository{
     @Override
     public List<Venue> findAll() {
         // limit until we develop a paging solution
-        final String sql = "select venue_id, venue_name, url, address, city, state, zipcode from venue;";
+        final String sql = "select venue_id, venue_name, url, address, city, state, zipcode, photo from venue;";
         return jdbcTemplate.query(sql, new VenueMapper());
     }
 
     @Override
     public Venue findById(int venueId){
-        final String sql = "select venue_id, venue_name, url, address, city, state, zipcode "
+        final String sql = "select venue_id, venue_name, url, address, city, state, zipcode, photo "
                 + "from venue "
                 + "where venue_id = ?;";
         return jdbcTemplate.query(sql, new VenueMapper(), venueId).stream()
@@ -40,8 +40,8 @@ public class VenueJdbcTemplateRepository implements VenueRepository{
 
     @Override
     public Venue add(Venue venue){
-        final String sql = "insert into venue (venue_name, url, address, city, state, zipcode)"
-                + "values (?,?,?,?,?,?);";
+        final String sql = "insert into venue (venue_name, url, address, city, state, zipcode, photo)"
+                + "values (?,?,?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -52,6 +52,7 @@ public class VenueJdbcTemplateRepository implements VenueRepository{
             ps.setString(4, venue.getCity());
             ps.setString(5, venue.getState());
             ps.setString(6, venue.getZipcode());
+            ps.setString(7, venue.getPhoto());
             return ps;
         }, keyHolder);
 
@@ -71,7 +72,8 @@ public class VenueJdbcTemplateRepository implements VenueRepository{
                 + "address = ?, "
                 + "city = ?, "
                 + "state = ?, "
-                + "zipcode = ? "
+                + "zipcode = ?, "
+                + "photo = ? "
                 + "where venue_id = ?;";
 
         return jdbcTemplate.update(sql,
@@ -81,17 +83,13 @@ public class VenueJdbcTemplateRepository implements VenueRepository{
                 venue.getCity(),
                 venue.getState(),
                 venue.getZipcode(),
+                venue.getPhoto(),
                 venue.getVenueId()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int venueId) {
-//        jdbcTemplate.update("Delete p\n" +
-//                "from person_gig_role p\n" +
-//                "left outer join gig g on p.gig_id = g.gig_id\n" +
-//                "left outer join venue v on v.venue_id = v.venue_id\n" +
-//                "where v.venue_id = ?;", venueId);
         jdbcTemplate.update("delete from gig where venue_id = ?", venueId);
         return jdbcTemplate.update("delete from venue where venue_id = ?", venueId) > 0;
     }
